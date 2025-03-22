@@ -59,48 +59,12 @@ For this example, we'll create a simple Python Flask App For Book Search
 1.  **Create a Deployment YAML file ( `flask-py-app-deployment.yaml`):**
 
     
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: flask-app
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: flask-app
-  template:
-    metadata:
-      labels:
-        app: flask-app
-    spec:
-      containers:
-      - name: flask-app
-        image: localhost:5000/docker-book-store-local-repo 
-        ports:
-        - containerPort: 5000
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: flask-app
-spec:
-  selector:
-    app: flask-app
-  ports:
-    - protocol: TCP
-      port: 5002
-      targetPort: 5000
-      nodePort: 32000
-  type: NodePort
-
-
-3.  **Apply the YAML files:**
+2.  **Apply the YAML files:**
 
     kubectl apply -f flask-py-app-deployment.yaml
 
 
-4.  **Verify the Deployment and Service:**
+3.  **Verify the Deployment and Service:**
 
     kubectl get deployments
     kubectl get services
@@ -120,5 +84,5 @@ spec:
 	
 	if node port Ip not working check with localhost
 	
-    Open a web browser and navigate to `http://localhost:32000`. You should see the Book Search Page
+    Open a web browser and navigate to http://localhost:32000. You should see the Book Search Page
 
