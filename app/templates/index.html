@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Search</title>
+</head>
+<body>
+    <h1>Search Books</h1>
+    <form id="searchForm">
+        <input type="text" id="searchQuery" placeholder="Enter book title or author">
+        <button type="submit">Search</button>
+    </form>
+
+    <ul id="bookResults"></ul>
+
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const query = document.getElementById('searchQuery').value;
+            fetch(`/search?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultsElement = document.getElementById('bookResults');
+                    resultsElement.innerHTML = '';
+                    if (data.length > 0) {
+                        data.forEach(book => {
+                            const li = document.createElement('li');
+                            li.textContent = `${book.title} by ${book.author}`;
+                            resultsElement.appendChild(li);
+                        });
+                    } else {
+                        resultsElement.innerHTML = '<li>No books found</li>';
+                    }
+                });
+        });
+    </script>
+</body>
+</html>
